@@ -1,0 +1,55 @@
+.rui-flex {
+    --rui-flex-spacing: 0;
+}
+
+.rui-flex-auto {
+    flex: 1 1 0%;
+    overflow: hidden;
+}
+
+.rui-flex-empty {
+    flex: 1 1 0%;
+    overflow: hidden;
+    margin: 0;
+}
+
+.rui-flex-center {
+    justify-content: center;
+}
+
+.rui-flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+}
+
+.rui-flex-column {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.rui-flex-spacing > .rui-flex-empty,
+.rui-flex-spacing > .rui-flex-empty + * {
+    margin-left: 0;
+    margin-top: 0;
+}
+
+.rui-flex-spacing {
+    &.rui-flex-column > * {
+        margin-top: var(--rui-flex-spacing);
+    }
+
+    &.rui-flex-row > * {
+        margin-left: var(--rui-flex-spacing);
+    }
+
+    &.rui-flex-column > *:first-child {
+        margin-top: 0;
+    }
+
+    &.rui-flex-row > *:first-child {
+        margin-left: 0;
+    }
+}

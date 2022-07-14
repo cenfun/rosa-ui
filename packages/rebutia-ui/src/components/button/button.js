@@ -8,6 +8,7 @@ import './button.scss';
 export default class RuiButton extends RuiBase {
 
     static propTypes = {
+        type: PropTypes.string,
         label: PropTypes.node,
         primary: PropTypes.bool,
         disabled: PropTypes.bool,
@@ -16,16 +17,15 @@ export default class RuiButton extends RuiBase {
 
     render() {
         const {
-            primary, disabled, children
+            type, primary, disabled, label, children
         } = this.props;
 
-        const classList = ['rui', 'rui-button', this.cid];
-        if (primary) {
-            classList.push('rui-button-primary');
-        }
+        const classMap = Util.classMap(['rui', 'rui-button', this.cid, {
+            'rui-button-primary': primary
+        }]);
 
         return (
-            <button disabled={disabled} className={Util.classMap(classList)}>{children}</button>
+            <button type={type} disabled={disabled} className={classMap}>{label || children}</button>
         );
     }
 }

@@ -11,11 +11,15 @@ document.body.appendChild(rootElement);
 
 const root = ReactDOM.createRoot(rootElement);
 
-const { RuiButton } = components;
+const { RuiButton, RuiFlex } = components;
 
 root.render(
     <StrictMode>
-        <RuiButton><b>Bold</b> Button Name</RuiButton>
-        <RuiButton disabled>Button Disabled</RuiButton>
+        <RuiFlex spacing="10px">
+            <RuiButton><b>Bold</b> Button Name</RuiButton>
+            <RuiButton label="Button Label"></RuiButton>
+            <RuiButton primary>Button Primary</RuiButton>
+            <RuiButton disabled>Button Disabled</RuiButton>
+        </RuiFlex>
     </StrictMode>
 );
