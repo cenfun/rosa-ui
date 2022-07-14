@@ -19,8 +19,8 @@ export default function(context) {
         const fileName = list.pop();
         const folderName = list.pop();
 
-        // "./lui-button/lui-button.js"
-        // "./path-to/lui-grid/lui-grid.js"
+        // "./button/button.js"
+        // "./path-to/grid/grid.js"
 
         // entry file name must be same with folder name
         if (fileName !== `${folderName}.js`) {

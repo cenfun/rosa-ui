@@ -9,7 +9,7 @@ class RuiBase extends React.Component {
         super();
         //unique id
         this.uid = `${uid++}`;
-        //component id, instance id, lui-name-uid
+        //component id, instance id, rui-name-uid
         const kebab = Util.pascalToKebabCase(this.constructor.name);
         this.cid = `${kebab}-${this.uid}`;
     }
