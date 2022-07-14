@@ -3,9 +3,9 @@ import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import './app.scss';
 
-console.log(React, ReactDOM);
+//console.log(React, ReactDOM);
 
-console.log(components);
+console.log('components', components);
 
 const rootElement = document.createElement('div');
 rootElement.className = 'rui-app';

@@ -4,14 +4,30 @@ import { components } from 'rebutia-ui';
 
 const { RuiButton, RuiFlex } = components;
 
+const text = 'Text';
+
 export default class DemoButton extends React.Component {
     render() {
         return (
             <RuiFlex spacing="10px">
-                <RuiButton><b>Bold</b> Button Name</RuiButton>
-                <RuiButton label="Button Label"></RuiButton>
-                <RuiButton primary>Button Primary</RuiButton>
-                <RuiButton disabled>Button Disabled</RuiButton>
+                <RuiButton label="Label" />
+
+                <RuiButton label={`Props ${text}`} />
+
+                <RuiButton>
+                    <b>Slot</b> { text }
+                </RuiButton>
+
+                <RuiButton disabled>
+                Disabled
+                </RuiButton>
+
+                <RuiButton
+                    primary
+                    tooltip="This is Button tooltip"
+                >
+                Button Primary
+                </RuiButton>
             </RuiFlex>
         );
     }
