@@ -1,0 +1,31 @@
+.rui,
+.rui ::before,
+.rui ::after,
+.rui *,
+.rui *::before,
+.rui *::after {
+    box-sizing: border-box;
+}
+
+.rui {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+        font-family: inherit;
+    }
+
+    button,
+    input {
+        overflow: visible;
+    }
+
+    button,
+    select {
+        text-transform: none;
+    }
+}

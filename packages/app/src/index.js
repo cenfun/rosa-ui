@@ -6,7 +6,9 @@ import ReactDOM from 'react-dom';
 
 console.log(components);
 
-const rootElement = document.querySelector('.dev-container');
+const rootElement = document.createElement('div');
+document.body.appendChild(rootElement);
+
 const root = ReactDOM.createRoot(rootElement);
 
 const { RuiButton } = components;

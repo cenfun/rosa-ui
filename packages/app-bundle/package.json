@@ -1,0 +1,10 @@
+{
+    "name": "rebutia-ui-app-bundle",
+    "version": "",
+    "main": "dist/rebutia-ui-app-bundle.js",
+    "files": [
+        "dist"
+    ],
+    "dependencies": {},
+    "devDependencies": {}
+}
