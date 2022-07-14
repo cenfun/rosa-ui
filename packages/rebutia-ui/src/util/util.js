@@ -111,6 +111,13 @@ export const pascalToKebabCase = function(text) {
         .toLowerCase();
 };
 
+export const kebabToPascalCase = function(text) {
+    return (`${text}`).trim()
+        .replace(/(^\w|-\w)/g, function(str) {
+            return str.replace(/-/, '').toUpperCase();
+        });
+};
+
 
 export const classMap = function(obj) {
     if (typeof obj === 'string') {
@@ -194,6 +201,7 @@ export default {
     bindEvents,
     preventDefault,
     pascalToKebabCase,
+    kebabToPascalCase,
     classMap,
     styleMap
 };
