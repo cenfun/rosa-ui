@@ -5,7 +5,8 @@ const DemoCheckbox = () => {
 
     const { RuiCheckbox, RuiFlex } = components;
 
-    const [checked, setChecked] = useState(true);
+    const checkedModel = useState(true);
+    const [checked, setChecked] = checkedModel;
     const onChecked = (e) => {
         setChecked(!checked);
     };
@@ -17,15 +18,15 @@ const DemoCheckbox = () => {
             </RuiCheckbox>
 
             <RuiCheckbox checked={checked} onChange={onChecked}>
-                Checked { checked }
+            checked onChange { checked }
             </RuiCheckbox>
 
-            <RuiCheckbox model={checked}>
-                Checkbox v-model
+            <RuiCheckbox model={checkedModel}>
+            model
             </RuiCheckbox>
 
             <RuiCheckbox
-                model={checked}
+                model={checkedModel}
                 disabled
             >
                 Disabled { checked }
