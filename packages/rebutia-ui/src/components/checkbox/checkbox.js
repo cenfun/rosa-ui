@@ -26,7 +26,7 @@ const RuiCheckbox = ({
         checked = model[0];
         const setChecked = model[1];
         onChange = (e) => {
-            setChecked(!checked);
+            setChecked(e.target.checked);
         };
     }
 
