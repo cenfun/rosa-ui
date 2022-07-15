@@ -1,31 +1,44 @@
-import PropTypes from 'prop-types';
+import {
+    string,
+    bool,
+    func,
+    any
+} from 'prop-types';
 
 import React from 'react';
-import RuiBase from '../../base/base.js';
-import Util from '../../util/util.js';
+import { useBase } from '../../base/base.js';
+import { classMap } from '../../util/util.js';
 import './button.scss';
 
-export default class RuiButton extends RuiBase {
+const RuiButton = ({
+    type,
+    primary,
+    disabled,
+    onClick,
+    label,
+    children
+}) => {
 
-    static propTypes = {
-        type: PropTypes.string,
-        label: PropTypes.node,
-        primary: PropTypes.bool,
-        disabled: PropTypes.bool,
-        children: PropTypes.node
-    };
+    const { cid } = useBase(RuiButton);
 
-    render() {
-        const {
-            type, primary, disabled, label, children
-        } = this.props;
+    const className = classMap(['rui', 'rui-button', cid, {
+        'rui-button-primary': primary
+    }]);
 
-        const classMap = Util.classMap(['rui', 'rui-button', this.cid, {
-            'rui-button-primary': primary
-        }]);
+    return (
+        <button type={type} disabled={disabled} className={className} onClick={onClick}>{label || children}</button>
+    );
 
-        return (
-            <button type={type} disabled={disabled} className={classMap}>{label || children}</button>
-        );
-    }
-}
+};
+
+RuiButton.propTypes = {
+    type: string,
+    primary: bool,
+    disabled: bool,
+    onClick: func,
+    label: any,
+    children: any
+};
+
+
+export default RuiButton;

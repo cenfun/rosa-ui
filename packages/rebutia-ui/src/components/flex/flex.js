@@ -1,48 +1,51 @@
-import PropTypes from 'prop-types';
+import {
+    string,
+    oneOf,
+    bool,
+    any
+} from 'prop-types';
 
 import React from 'react';
-import RuiBase from '../../base/base.js';
-import Util from '../../util/util.js';
+import { useBase } from '../../base/base.js';
+import { classMap } from '../../util/util.js';
 import './flex.scss';
 
-export default class RuiFlex extends RuiBase {
+const RuiFlex = ({
+    width,
+    height,
+    direction = 'row',
+    center,
+    spacing,
+    children
+}) => {
 
-    static propTypes = {
-        width: PropTypes.string,
-        height: PropTypes.string,
+    const { cid } = useBase(RuiFlex);
+    const className = classMap(['rui', 'rui-flex', cid, `rui-flex-${direction}`, {
+        'rui-flex-center': center,
+        'rui-flex-spacing': spacing
+    }]);
 
-        center: PropTypes.bool,
-        spacing: PropTypes.string,
-
-        direction: PropTypes.oneOf(['row', 'column']),
-
-        children: PropTypes.node
+    const styleMap = {
+        width,
+        height,
+        '--rui-flex-spacing': spacing
     };
 
-    static defaultProps = {
-        direction: 'row'
-    };
+    //console.log(styleMap);
 
-    render() {
-        const {
-            width, height, center, direction, spacing, children
-        } = this.props;
+    return (
+        <div className={className} style={styleMap}>{children}</div>
+    );
 
-        const classMap = Util.classMap(['rui', 'rui-flex', this.cid, `rui-flex-${direction}`, {
-            'rui-flex-center': center,
-            'rui-flex-spacing': spacing
-        }]);
+};
 
-        const styleMap = {
-            width,
-            height,
-            '--rui-flex-spacing': spacing
-        };
+RuiFlex.propTypes = {
+    width: string,
+    height: string,
+    direction: oneOf(['row', 'column']),
+    center: bool,
+    spacing: string,
+    children: any
+};
 
-        //console.log(styleMap);
-
-        return (
-            <div className={classMap} style={styleMap}>{children}</div>
-        );
-    }
-}
+export default RuiFlex;

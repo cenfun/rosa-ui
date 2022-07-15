@@ -1,34 +1,36 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import { components } from 'rebutia-ui';
 
-const { RuiButton, RuiFlex } = components;
+const DemoButton = () => {
 
-const text = 'Text';
+    const { RuiButton, RuiFlex } = components;
 
-export default class DemoButton extends React.Component {
-    render() {
-        return (
-            <RuiFlex spacing="10px">
-                <RuiButton label="Label" />
+    const [count, setCount] = useState(0);
+    const onCount = (e) => {
+        setCount(count + 1);
+    };
 
-                <RuiButton label={`Props ${text}`} />
+    return (
+        <RuiFlex spacing="10px">
 
-                <RuiButton>
-                    <b>Slot</b> { text }
-                </RuiButton>
+            <RuiButton label={`Label ${count}`} onClick={onCount} />
 
-                <RuiButton disabled>
+            <RuiButton onClick={onCount}>
+                <b>Slot</b> { count }
+            </RuiButton>
+
+            <RuiButton disabled>
                 Disabled
-                </RuiButton>
+            </RuiButton>
 
-                <RuiButton
-                    primary
-                    tooltip="This is Button tooltip"
-                >
+            <RuiButton
+                primary
+                tooltip="This is Button tooltip"
+            >
                 Button Primary
-                </RuiButton>
-            </RuiFlex>
-        );
-    }
-}
+            </RuiButton>
+        </RuiFlex>
+    );
+};
+
+export default DemoButton;

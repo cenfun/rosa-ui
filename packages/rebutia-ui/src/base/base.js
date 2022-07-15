@@ -1,23 +1,23 @@
-import React from 'react';
 import Util from '../util/util.js';
 import './base.scss';
 
-let uid = 1;
-class RuiBase extends React.Component {
+let _uid = 1;
 
-    constructor() {
-        super();
-        //unique id
-        this.uid = `${uid++}`;
-        //component id, instance id, rui-name-uid
-        const kebab = Util.pascalToKebabCase(this.constructor.name);
-        this.cid = `${kebab}-${this.uid}`;
-    }
+export const useBase = function(target) {
 
-    render() {
-        return 'Hello Base Component';
-    }
+    //unique id
+    const uid = `${_uid++}`;
+    //component id, instance id, rui-name-uid
+    const kebab = Util.pascalToKebabCase(target.name);
+    const cid = `${kebab}-${uid}`;
 
-}
+    return {
+        uid,
+        cid
+    };
+};
 
-export default RuiBase;
+
+export default {
+    useBase
+};
