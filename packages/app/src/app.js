@@ -1,4 +1,4 @@
-import { components, Util } from 'rebutia-ui';
+import { components } from 'rebutia-ui';
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import './app.scss';
@@ -16,6 +16,13 @@ const root = ReactDOM.createRoot(rootElement);
 const { RuiFlex } = components;
 
 
+const kebabToPascalCase = function(text) {
+    return (`${text}`).trim()
+        .replace(/(^\w|-\w)/g, function(str) {
+            return str.replace(/-/, '').toUpperCase();
+        });
+};
+
 const context = require.context('./demo', true, /\.js$/);
 const demos = [];
 const paths = context.keys();
@@ -23,7 +30,7 @@ paths.forEach((path) => {
     //console.log(path);
     const fileName = path.split('/').pop();
     const demoName = fileName.split('.').shift();
-    const N = Util.kebabToPascalCase(demoName);
+    const N = kebabToPascalCase(demoName);
     const Demo = context(path).default;
     demos.push({
         name: `Rui${N}`,
@@ -61,7 +68,6 @@ root.render(
                     );
                 })}
             </div>
-
         </RuiFlex>
     </StrictMode>
 );

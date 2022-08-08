@@ -19,7 +19,7 @@ const RuiCheckbox = ({
     children
 }) => {
 
-    const { cid } = useBase(RuiCheckbox);
+    const { cid } = useBase('RuiCheckbox');
     const className = classMap(['rui', 'rui-checkbox', cid]);
 
     if (model) {

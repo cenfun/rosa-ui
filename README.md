@@ -14,9 +14,7 @@ npm install rebutia-ui
 import { components } from "rebutia-ui";
 const { RuiButton } = components;
 root.render(
-    <StrictMode>
-        <RuiButton><b>Bold</b> Button Name</RuiButton>
-        <RuiButton disabled>Button Disabled</RuiButton>
-    </StrictMode>
+    <RuiButton><b>Bold</b> Button Name</RuiButton>
+    <RuiButton disabled>Button Disabled</RuiButton>
 );
 ```

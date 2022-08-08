@@ -188,20 +188,20 @@ export const styleMap = function(obj) {
     return '';
 };
 
-export default {
-    hasOwn,
-    isInvalid,
-    toNum,
-    isList,
-    toList,
-    token,
-    getValue,
-    clamp,
-    unbindEvents,
-    bindEvents,
-    preventDefault,
-    pascalToKebabCase,
-    kebabToPascalCase,
-    classMap,
-    styleMap
+export const nextTick = (callback) => {
+    if (typeof window.queueMicrotask === 'function') {
+        window.queueMicrotask(() => {
+            callback();
+        });
+        return;
+    }
+
+    if (typeof Promise === 'function') {
+        Promise.resolve().then(() => {
+            callback();
+        });
+        return;
+    }
+
+    throw new Error('Current browser does NOT support queueMicrotask or Promise');
 };

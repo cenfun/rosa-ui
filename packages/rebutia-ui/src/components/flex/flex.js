@@ -19,7 +19,7 @@ const RuiFlex = ({
     children
 }) => {
 
-    const { cid } = useBase(RuiFlex);
+    const { cid } = useBase('RuiFlex');
     const className = classMap(['rui', 'rui-flex', cid, `rui-flex-${direction}`, {
         'rui-flex-center': center,
         'rui-flex-spacing': spacing

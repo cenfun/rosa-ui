@@ -19,7 +19,7 @@ const RuiButton = ({
     children
 }) => {
 
-    const { cid } = useBase(RuiButton);
+    const { cid } = useBase('RuiButton');
 
     const className = classMap(['rui', 'rui-button', cid, {
         'rui-button-primary': primary

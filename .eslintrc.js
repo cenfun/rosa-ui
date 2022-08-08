@@ -18,15 +18,15 @@ module.exports = {
     },
 
     'plugins': [
-        'chain',
         'react',
+        'react-hooks',
         'html'
     ],
 
     'extends': [
-        'plus',
-        'plugin:chain/recommended',
-        'plugin:react/recommended'
+        'plugin:react/recommended',
+        'plugin:react-hooks/recommended',
+        'plus'
     ],
 
     'parserOptions': {

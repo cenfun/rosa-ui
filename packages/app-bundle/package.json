@@ -1,6 +1,6 @@
 {
     "name": "rebutia-ui-app-bundle",
-    "version": "",
+    "version": "1.0.0",
     "main": "dist/rebutia-ui-app-bundle.js",
     "files": [
         "dist"
