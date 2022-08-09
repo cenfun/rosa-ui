@@ -19,21 +19,25 @@ import IconX from '../../base/images/icon-x.js';
 
 import './select.scss';
 
-/* eslint-disable max-lines-per-function,max-statements */
-const RuiSelect = ({
-    label,
-    disabled,
-    options,
-    width,
-    searchable,
-    value,
-    model,
-    onRemove,
-    children
-}) => {
+/* eslint-disable max-lines-per-function */
+const RuiSelect = (props) => {
+
+    const {
+        label,
+        disabled,
+        options,
+        width,
+        searchable,
+        value,
+        model,
+        onRemove,
+        onSearch,
+        children
+    } = props;
 
     const { cid } = useBase('RuiSelect');
     const className = classMap(['rui', 'rui-select', cid]);
+    const el = useRef(null);
 
     const [state] = useState({
         firstUpdated: false,
@@ -41,22 +45,17 @@ const RuiSelect = ({
         shouldOpen: false,
         timeout_display: 0,
         lastDirection: 'down',
+        list: [],
         $el: null,
         $list: null,
         $view: null
     });
 
-    const el = useRef(null);
-
-    let setValue = (v) => {};
-
+    let [modelValue, setModelValue] = useState(value);
     if (model) {
-        value = model[0];
-        setValue = model[1];
+        modelValue = model[0];
+        setModelValue = model[1];
     }
-
-    //for view width
-    const [viewWidth, setViewWidth] = useState(width);
 
     //label for view display
     const [selectedLabel, setSelectedLabel] = useState('');
@@ -80,6 +79,8 @@ const RuiSelect = ({
         return classMap(ls);
     }, [searchable]);
 
+    const [viewWidth, setViewWidth] = useState(width);
+
     const viewStyle = useMemo(() => {
         if (viewWidth) {
             return {
@@ -98,11 +99,142 @@ const RuiSelect = ({
         return {};
     }, [viewWidth]);
 
-    //console.log(styleMap);
+    //=========================================================================================================
+
+    const initSelectedItem = (ls) => {
+        const dv = modelValue;
+
+        //console.log('dv', dv);
+
+        const item = ls.find((it) => it.value === dv);
+        if (item) {
+            setSelectedLabel(item.label);
+            setSelectedValue(item.value);
+        } else {
+            setSelectedLabel('');
+            setSelectedValue(null);
+        }
+
+    };
+
+    const getListByPropOptions = (ls) => {
+        ls = ls.map((item) => {
+            if (item && typeof item === 'object') {
+                return {
+                    ... item,
+                    label: item.label || item.value,
+                    value: item.value || item.label
+                };
+            }
+            return {
+                label: `${item}`,
+                value: `${item}`
+            };
+        });
+
+        initSelectedItem(ls);
+
+        return ls;
+
+    };
+
+    const getListBySlotOptions = (ls) => {
+        if (!isList(ls)) {
+            return [];
+        }
+
+        const getChildrenLabel = (c) => {
+            if (typeof c === 'string') {
+                return c;
+            }
+            if (isList(c)) {
+                return c.map((vn) => {
+                    if (typeof vn === 'string') {
+                        return vn;
+                    }
+                    return getChildrenLabel(vn.props.children);
+                }).join('');
+            }
+            return c || '';
+        };
+
+        ls = ls.map((vn) => {
+            //console.log(vn);
+            const item = {
+                ... vn.props
+            };
+            delete item.children;
+
+            if (!item.label) {
+                item.label = getChildrenLabel(vn.props.children);
+            }
+            if (!item.value) {
+                item.value = item.label;
+            }
+            if (hasOwn(item, 'selected')) {
+                item.selected = true;
+            }
+            if (hasOwn(item, 'removable')) {
+                item.removable = true;
+            }
+            return item;
+        });
+
+        initSelectedItem(ls);
+
+        //console.log(ls);
+
+        return ls;
+
+    };
+
+    const list = useMemo(() => {
+        const ls = options ? getListByPropOptions(options) : getListBySlotOptions(children);
+        state.list = ls;
+        return ls;
+    }, [options, children]);
 
     //=========================================================================================================
 
-    const windowEvents = {
+    const getEventClosestNode = function(target, cln) {
+        if (!target) {
+            return;
+        }
+        if (target.classList.contains(cln)) {
+            return target;
+        }
+        return getEventClosestNode(target.parentNode, cln);
+    };
+
+    const onItemClickHandler = (e) => {
+        const $item = getEventClosestNode(e.target, 'rui-select-item');
+        if (!$item) {
+            return;
+        }
+        const index = parseInt($item.getAttribute('index'));
+
+        const item = state.list[index];
+
+        console.log(state.list, item);
+
+        const cls = e.target.classList;
+        if (cls.contains('rui-select-item-remove')) {
+            onRemove(item, e);
+            return;
+        }
+
+        //console.log('onItemClick', item);
+        setSearchValue(null);
+        setSelectedLabel(item.label);
+        setSelectedValue(item.value);
+        setModelValue(item.value);
+
+        close();
+
+    };
+
+
+    const [windowEvents] = useState({
         resize: {
             handler: (e) => {
                 //console.log('resizeHandler');
@@ -122,48 +254,15 @@ const RuiSelect = ({
             },
             options: true
         }
-    };
+    });
 
-    const getEventClosestNode = function(target, cln) {
-        if (!target) {
-            return;
-        }
-        if (target.classList.contains(cln)) {
-            return target;
-        }
-        return getEventClosestNode(target.parentNode, cln);
-    };
-
-    const onItemClick = (item, e) => {
-
-        //console.log('onItemClick', item);
-
-        setSearchValue(null);
-        setSelectedLabel(item.label);
-        setSelectedValue(item.value);
-        setValue(item.value);
-
-        close();
-    };
-
-    const listEvents = {
+    const [listEvents] = useState({
         mousedown: {
             handler: (e) => {
-                const $item = getEventClosestNode(e.target, 'rui-select-item');
-                if (!$item) {
-                    return;
-                }
-                const index = parseInt($item.getAttribute('index'));
-                const item = list[index];
-                const cls = e.target.classList;
-                if (cls.contains('rui-select-item-remove')) {
-                    onRemove(item, e);
-                    return;
-                }
-                onItemClick(item, e);
+                onItemClickHandler(e);
             }
         }
-    };
+    });
 
 
     const unbindComponentEvents = () => {
@@ -358,16 +457,20 @@ const RuiSelect = ({
     const onInput = (e) => {
         //emit('search', e);
         setSearchValue(e.target.value);
+        if (typeof onSearch === 'function') {
+            onSearch(e);
+        }
     };
 
     const onFocus = (e) => {
         //console.log('onFocus', cid);
+        e.target.select();
         openAsync();
     };
 
     const onBlur = (e) => {
         //console.log('onBlur', cid);
-        //data.searchValue = null;
+        setSearchValue(null);
         closeAsync();
     };
 
@@ -381,100 +484,6 @@ const RuiSelect = ({
     };
 
     //=========================================================================================================
-
-    const initSelectedItem = (ls) => {
-        const dv = value;
-
-        //console.log('dv', dv);
-
-        const item = ls.find((it) => it.value === dv);
-        if (item) {
-            setSelectedLabel(item.label);
-            setSelectedValue(item.value);
-        } else {
-            setSelectedLabel('');
-            setSelectedValue(null);
-        }
-
-    };
-
-    const getListByPropOptions = (ls) => {
-        ls = ls.map((item) => {
-            if (item && typeof item === 'object') {
-                return {
-                    ... item,
-                    label: item.label || item.value,
-                    value: item.value || item.label
-                };
-            }
-            return {
-                label: `${item}`,
-                value: `${item}`
-            };
-        });
-
-        initSelectedItem(ls);
-
-        return ls;
-
-    };
-
-    const getListBySlotOptions = (ls) => {
-        if (!isList(ls)) {
-            return [];
-        }
-
-        const getChildrenLabel = (c) => {
-            if (typeof c === 'string') {
-                return c;
-            }
-            if (isList(c)) {
-                return c.map((vn) => {
-                    if (typeof vn === 'string') {
-                        return vn;
-                    }
-                    return getChildrenLabel(vn.props.children);
-                }).join('');
-            }
-            return c || '';
-        };
-
-        ls = ls.map((vn) => {
-            //console.log(vn);
-            const item = {
-                ... vn.props
-            };
-            delete item.children;
-
-            if (!item.label) {
-                item.label = getChildrenLabel(vn.props.children);
-            }
-            if (!item.value) {
-                item.value = item.label;
-            }
-            if (hasOwn(item, 'selected')) {
-                item.selected = true;
-            }
-            if (hasOwn(item, 'removable')) {
-                item.removable = true;
-            }
-            return item;
-        });
-
-        initSelectedItem(ls);
-
-        //console.log(ls);
-
-        return ls;
-
-    };
-
-    const list = useMemo(() => {
-        if (options) {
-            return getListByPropOptions(options);
-        }
-        return getListBySlotOptions(children);
-    }, [options]);
 
 
     const initWidth = () => {
@@ -568,6 +577,7 @@ RuiSelect.propTypes = {
     value: string,
     model: array,
     onRemove: func,
+    onSearch: func,
     children: any
 };
 

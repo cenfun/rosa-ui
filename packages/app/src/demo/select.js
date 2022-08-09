@@ -62,13 +62,15 @@ const DemoSelect = () => {
     const onSelectRemove = (item) => {
         console.log('onSelectRemove', item);
         const v = item.value;
-        setSelectResults(selectResults.filter((it) => {
-            //no value here
-            if (it.label === v) {
-                return false;
-            }
-            return true;
-        }));
+        setSelectResults((results) => {
+            return results.filter((it) => {
+                //no value here
+                if (it.label === v) {
+                    return false;
+                }
+                return true;
+            });
+        });
     };
 
 
@@ -186,7 +188,7 @@ const DemoSelect = () => {
                 />
                 <RuiSelect
                     model={selectValue}
-                    label="100 width (no @search):"
+                    label="100 width (no onSearch):"
                     width="100px"
                     options={selectResults}
                     searchable={true}
