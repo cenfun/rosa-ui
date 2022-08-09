@@ -2,10 +2,11 @@ import {
     bool,
     func,
     any,
-    array
+    array,
+    string
 } from 'prop-types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useBase } from '../../base/base.js';
 import { classMap } from '../../util/util.js';
 import './checkbox.scss';
@@ -16,11 +17,14 @@ const RuiCheckbox = ({
     model,
     disabled,
     label,
+    className,
     children
 }) => {
 
     const { cid } = useBase('RuiCheckbox');
-    const className = classMap(['rui', 'rui-checkbox', cid]);
+    const classList = useMemo(() => {
+        return classMap(['rui', 'rui-checkbox', cid, className]);
+    }, [cid, className]);
 
     if (model) {
         checked = model[0];
@@ -31,7 +35,7 @@ const RuiCheckbox = ({
     }
 
     return (
-        <div className={className}>
+        <div className={classList}>
             <input id={cid} checked={checked} onChange={onChange} disabled={disabled} type="checkbox" />
             <label htmlFor={cid}>{label || children}</label>
         </div>
@@ -45,6 +49,7 @@ RuiCheckbox.propTypes = {
     onChange: func,
     model: array,
     label: any,
+    className: string,
     children: any
 };
 
