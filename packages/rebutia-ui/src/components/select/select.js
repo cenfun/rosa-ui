@@ -32,11 +32,14 @@ const RuiSelect = (props) => {
         model,
         onRemove,
         onSearch,
+        className,
         children
     } = props;
 
     const { cid } = useBase('RuiSelect');
-    const className = classMap(['rui', 'rui-select', cid]);
+    const classList = useMemo(() => {
+        return classMap(['rui', 'rui-select', cid, className]);
+    }, [cid, className]);
     const el = useRef(null);
 
     const [state] = useState({
@@ -525,7 +528,7 @@ const RuiSelect = (props) => {
     });
 
     return (
-        <div className={className} ref={el}>
+        <div className={classList} ref={el}>
             {label && <label>{label}</label>}
             <input
                 type="text"
@@ -572,6 +575,7 @@ RuiSelect.propTypes = {
     model: array,
     onRemove: func,
     onSearch: func,
+    className: string,
     children: any
 };
 

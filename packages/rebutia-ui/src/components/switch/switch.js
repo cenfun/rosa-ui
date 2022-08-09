@@ -4,9 +4,7 @@ import {
     any
 } from 'prop-types';
 
-import React, {
-    useMemo, useState, useEffect
-} from 'react';
+import React, { useMemo, useState } from 'react';
 import { useBase } from '../../base/base.js';
 import { classMap } from '../../util/util.js';
 import './switch.scss';
@@ -23,14 +21,15 @@ const RuiSwitch = (props) => {
         disabled,
         checked,
         model,
+        className,
         children
     } = props;
 
     const { cid } = useBase('RuiSwitch');
 
-    const classList = classMap(['rui', 'rui-switch', cid]);
-
-    const [buttonColors, setButtonColors] = useState(defaultColors);
+    const classList = useMemo(() => {
+        return classMap(['rui', 'rui-switch', cid, className]);
+    }, [cid, className]);
 
     let [modelValue, setModelValue] = useState(checked);
     if (model) {
@@ -47,13 +46,26 @@ const RuiSwitch = (props) => {
     }, [modelValue, disabled]);
 
     const buttonStyleList = useMemo(() => {
+
+        let bgc = modelValue ? defaultColors[1] : defaultColors[0];
+        if (colors) {
+            const ls = `${colors}`.split(',').map((it) => it.trim());
+            if (modelValue && ls[1]) {
+                bgc = ls[1];
+            } else if (ls[0]) {
+                bgc = ls[0];
+            }
+        }
+
+        //console.log(bgc);
+
         return {
             'width': width,
             'height': height,
             'borderRadius': height,
-            'backgroundColor': modelValue ? buttonColors[1] : buttonColors[0]
+            'backgroundColor': bgc
         };
-    }, [modelValue, width, height, buttonColors]);
+    }, [width, height, modelValue, colors]);
 
     const iconStyleList = useMemo(() => {
         return {
@@ -74,11 +86,6 @@ const RuiSwitch = (props) => {
             return !v;
         });
     };
-
-    useEffect(() => {
-        const ls = `${colors}`.split(',').map((it) => it.trim());
-        setButtonColors([ls[0] || defaultColors[0], ls[1] || defaultColors[1]]);
-    }, [colors]);
 
     return (
         <div className={classList}>
@@ -108,6 +115,7 @@ RuiSwitch.propTypes = {
     disabled: bool,
     checked: bool,
     model: any,
+    className: string,
     children: any
 };
 

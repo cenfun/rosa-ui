@@ -7,27 +7,32 @@ import {
 } from 'prop-types';
 
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useBase } from '../../base/base.js';
 import { classMap } from '../../util/util.js';
 import './flyover.scss';
 
-const RuiFlyover = ({
-    width,
-    position = 'row',
-    visible = true,
-    children
-}) => {
+const RuiFlyover = (props) => {
+
+    const {
+        //width,
+        position = 'row',
+        //visible = true,
+        className,
+        children
+    } = props;
 
     const { cid } = useBase('RuiFlyover');
-    const className = classMap(['rui', 'rui-flyover', `rui-flyover-${position}`, cid]);
+    const classList = useMemo(() => {
+        return classMap(['rui', 'rui-flyover', cid, `rui-flyover-${position}`, className]);
+    }, [cid, position, className]);
 
     const styleMap = {
 
     };
 
     return (
-        <div className={className} style={styleMap}>{children}</div>
+        <div className={classList} style={styleMap}>{children}</div>
     );
 
 };
@@ -37,6 +42,7 @@ RuiFlyover.propTypes = {
     width: string,
     position: oneOf(['right', 'left']),
     visible: bool,
+    className: string,
     children: any
 };
 
