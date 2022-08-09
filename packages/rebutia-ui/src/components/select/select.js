@@ -186,7 +186,7 @@ const RuiSelect = (props) => {
         state.list = ls;
         initSelectedItem(ls, modelValue);
         return ls;
-    }, [options, children, modelValue]);
+    }, [options, children, modelValue, state]);
 
     //=========================================================================================================
 
