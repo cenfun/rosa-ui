@@ -7,7 +7,11 @@
     "keywords": [
         "rebutia-ui"
     ],
-    "scripts": {},
+    "scripts": {
+        "build": "sf lint && sf b -p",
+        "patch": "npm run build && sf publish patch",
+        "pack": "sf lint && sf pack -o docs -q v={version}"
+    },
     "workspaces": [
         "packages/*"
     ],
