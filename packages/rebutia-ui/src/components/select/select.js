@@ -51,12 +51,14 @@ const RuiSelect = (props) => {
         $view: null
     });
 
+    //outside
     let [modelValue, setModelValue] = useState(value);
     if (model) {
         modelValue = model[0];
         setModelValue = model[1];
     }
 
+    //inside
     //label for view display
     const [selectedLabel, setSelectedLabel] = useState('');
     //value for selected item class
@@ -101,22 +103,6 @@ const RuiSelect = (props) => {
 
     //=========================================================================================================
 
-    const initSelectedItem = (ls) => {
-        const dv = modelValue;
-
-        //console.log('dv', dv);
-
-        const item = ls.find((it) => it.value === dv);
-        if (item) {
-            setSelectedLabel(item.label);
-            setSelectedValue(item.value);
-        } else {
-            setSelectedLabel('');
-            setSelectedValue(null);
-        }
-
-    };
-
     const getListByPropOptions = (ls) => {
         ls = ls.map((item) => {
             if (item && typeof item === 'object') {
@@ -131,8 +117,6 @@ const RuiSelect = (props) => {
                 value: `${item}`
             };
         });
-
-        initSelectedItem(ls);
 
         return ls;
 
@@ -180,19 +164,29 @@ const RuiSelect = (props) => {
             return item;
         });
 
-        initSelectedItem(ls);
-
         //console.log(ls);
 
         return ls;
 
     };
 
+    const initSelectedItem = (ls, v) => {
+        const item = ls.find((it) => it.value === v);
+        if (item) {
+            setSelectedLabel(item.label);
+            setSelectedValue(item.value);
+        } else {
+            setSelectedLabel('');
+            setSelectedValue(null);
+        }
+    };
+
     const list = useMemo(() => {
         const ls = options ? getListByPropOptions(options) : getListBySlotOptions(children);
         state.list = ls;
+        initSelectedItem(ls, modelValue);
         return ls;
-    }, [options, children]);
+    }, [options, children, modelValue]);
 
     //=========================================================================================================
 
@@ -215,7 +209,7 @@ const RuiSelect = (props) => {
 
         const item = state.list[index];
 
-        console.log(state.list, item);
+        //console.log(state.list, item);
 
         const cls = e.target.classList;
         if (cls.contains('rui-select-item-remove')) {
