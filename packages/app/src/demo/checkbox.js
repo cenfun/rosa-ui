@@ -18,18 +18,18 @@ const DemoCheckbox = () => {
             </RuiCheckbox>
 
             <RuiCheckbox checked={checked} onChange={onChecked}>
-            checked onChange { checked }
+            checked { `${checked}` }
             </RuiCheckbox>
 
             <RuiCheckbox model={checkedModel}>
-            model
+            v-model
             </RuiCheckbox>
 
             <RuiCheckbox
                 model={checkedModel}
                 disabled
             >
-                Disabled { checked }
+                Disabled { `${checked}` }
             </RuiCheckbox>
 
             <RuiCheckbox />
