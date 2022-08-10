@@ -1,7 +1,7 @@
 {
-    "name": "rebutia-ui",
+    "name": "rosa-ui",
     "version": "1.0.0",
-    "main": "dist/rebutia-ui.js",
+    "main": "dist/rosa-ui.js",
     "files": [
         "dist"
     ],

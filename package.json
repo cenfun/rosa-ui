@@ -1,11 +1,11 @@
 {
-    "name": "rebutia-ui-components",
-    "description": "rebutia-ui-components",
+    "name": "rosa-ui-components",
+    "description": "rosa-ui-components",
     "version": "1.0.0",
     "main": "",
     "private": true,
     "keywords": [
-        "rebutia-ui"
+        "rosa-ui"
     ],
     "scripts": {
         "build": "sf lint && sf b -p",

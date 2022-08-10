@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { components } from 'rebutia-ui';
+import { components } from 'rosa-ui';
 
 const DemoCheckbox = () => {
 

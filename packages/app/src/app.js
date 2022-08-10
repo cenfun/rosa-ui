@@ -1,4 +1,4 @@
-import { components } from 'rebutia-ui';
+import { components } from 'rosa-ui';
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import './app.scss';
@@ -45,12 +45,12 @@ root.render(
     <StrictMode>
         <RuiFlex direction="column">
             <div className="rui-header rui-flex-row">
-                <div className="rui-title">Rebutia UI</div>
+                <div className="rui-title">Rosa UI</div>
                 <div className="rui-sub">
                     Based on <a href="https://github.com/facebook/react/" target="_blank" rel="noreferrer" >React</a>
                 </div>
                 <div>
-                    <a href="https://github.com/cenfun/rebutia-ui" target="_blank" className="icon-github" rel="noreferrer"/>
+                    <a href="https://github.com/cenfun/rosa-ui" target="_blank" className="icon-github" rel="noreferrer"/>
                 </div>
             </div>
             <div className="rui-body rui-flex-auto">

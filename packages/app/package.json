@@ -1,13 +1,13 @@
 {
-    "name": "rebutia-ui-app",
+    "name": "rosa-ui-app",
     "version": "1.0.0",
     "private": true,
-    "main": "dist/rebutia-ui-app.js",
+    "main": "dist/rosa-ui-app.js",
     "files": [
         "dist"
     ],
     "dependencies": {
-        "rebutia-ui": ""
+        "rosa-ui": ""
     },
     "devDependencies": {}
 }

@@ -1,17 +1,17 @@
-![](/scripts/rebutia.jpg)
+![](/scripts/rosa.jpg)
 
-# Rebutia UI
+# Rosa UI
 UI components based on [React](https://github.com/facebook/react/)
 ## Preview Online
-[https://cenfun.github.io/rebutia-ui/](https://cenfun.github.io/rebutia-ui/)
+[https://cenfun.github.io/rosa-ui/](https://cenfun.github.io/rosa-ui/)
 
 ## Install
 ```bash
-npm install rebutia-ui
+npm install rosa-ui
 ```
 ## Usage
 ```
-import { components } from "rebutia-ui";
+import { components } from "rosa-ui";
 const { RuiButton } = components;
 root.render(
     <RuiButton><b>Bold</b> Button Name</RuiButton>
