@@ -1,6 +1,6 @@
 {
     "name": "rosa-ui-components",
-    "description": "rosa-ui-components",
+    "description": "Lightweight UI components based on React",
     "version": "1.0.0",
     "main": "",
     "private": true,
