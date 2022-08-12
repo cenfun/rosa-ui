@@ -3,10 +3,10 @@ import { components } from 'rosa-ui';
 
 const DemeFlyover = () => {
     const {
-        RuiButton, RuiFlex, RuiSelect
+        RuiButton, RuiFlex, RuiSelect, RuiFlyover
     } = components;
 
-    const [flyoverVisible, setVisible] = useState(false);
+    const [visible, setVisible] = useState(false);
 
     const flyoverWidth = useState('30%');
     const flyoverPosition = useState('right');
@@ -34,13 +34,17 @@ const DemeFlyover = () => {
                 <option>left</option>
             </RuiSelect>
 
-            <RuiButton onClick={onClick(!flyoverVisible)}>Toggle</RuiButton>
+            <RuiButton onClick={onClick(!visible)}>Toggle</RuiButton>
 
             <RuiButton onClick={onClick(true)}>Show</RuiButton>
 
             <RuiButton onClick={onClick(false)}>Hide</RuiButton>
 
             {flyoverPosition[0] === 'right' && <div className="rui-flex-empty"/> }
+
+            <RuiFlyover width={flyoverWidth[0]} position={flyoverPosition[0]} visible={visible}>
+                <RuiButton onClick={onClick(false)}>Close</RuiButton>
+            </RuiFlyover>
 
         </RuiFlex>
     );
