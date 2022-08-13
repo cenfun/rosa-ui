@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { components } from 'rosa-ui';
+import RosaUI from 'rosa-ui';
+const { RuiButton, RuiFlex } = RosaUI;
 
 const DemoButton = () => {
-
-    const { RuiButton, RuiFlex } = components;
 
     const [count, setCount] = useState(0);
     const onCount = (v) => {

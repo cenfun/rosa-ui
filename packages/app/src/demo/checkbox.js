@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { components } from 'rosa-ui';
+import RosaUI from 'rosa-ui';
+
+const { RuiCheckbox, RuiFlex } = RosaUI;
 
 const DemoCheckbox = () => {
-
-    const { RuiCheckbox, RuiFlex } = components;
 
     const checkedModel = useState(true);
     const [checked, setChecked] = checkedModel;

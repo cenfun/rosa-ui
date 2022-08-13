@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { components } from 'rosa-ui';
+import RosaUI from 'rosa-ui';
+
+const { RuiSelect, RuiFlex } = RosaUI;
 
 const DemoSelect = () => {
-
-    const { RuiSelect, RuiFlex } = components;
 
     const selectValue = useState('STG');
 

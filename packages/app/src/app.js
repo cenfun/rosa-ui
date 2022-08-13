@@ -1,11 +1,11 @@
-import { components } from 'rosa-ui';
+import RosaUI from 'rosa-ui';
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import './app.scss';
 
 //console.log(React, ReactDOM);
 
-console.log('components', components);
+console.log('components', RosaUI);
 
 const rootElement = document.createElement('div');
 rootElement.className = 'rui-app';
@@ -13,7 +13,7 @@ document.body.appendChild(rootElement);
 
 const root = ReactDOM.createRoot(rootElement);
 
-const { RuiFlex } = components;
+const { RuiFlex } = RosaUI;
 
 
 const kebabToPascalCase = function(text) {

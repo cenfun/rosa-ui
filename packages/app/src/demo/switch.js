@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { components } from 'rosa-ui';
+import RosaUI from 'rosa-ui';
+
+const { RuiFlex, RuiSwitch } = RosaUI;
 
 const DemoSwitch = () => {
-    const { RuiFlex, RuiSwitch } = components;
 
     const switchModel = useState(false);
     const switchValue = switchModel[0];

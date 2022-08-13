@@ -1,3 +1,4 @@
+import { createComponent } from '../base/base.js';
 import { kebabToPascalCase } from './util.js';
 
 export default function(context) {
@@ -32,6 +33,8 @@ export default function(context) {
 
         //esModule default
         const Component = context(path).default;
+
+        Component.createComponent = createComponent;
 
         // no private component
         if (Component.private) {

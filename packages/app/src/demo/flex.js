@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { components } from 'rosa-ui';
+import RosaUI from 'rosa-ui';
+
+const {
+    RuiButton, RuiSelect, RuiSwitch, RuiFlex
+} = RosaUI;
 
 const DemoFlex = () => {
-
-    const {
-        RuiButton, RuiSelect, RuiSwitch, RuiFlex
-    } = components;
 
     const directionModel = useState('column');
     const direction = directionModel[0];
