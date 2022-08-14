@@ -16,30 +16,36 @@ import {
 //import { useHelper } from './select-helper.js';
 
 import IconX from '../../base/images/icon-x.js';
-
 import './select.scss';
+
+const propTypes = {
+    label: string,
+    disabled: bool,
+    options: array,
+    width: string,
+    searchable: bool,
+    value: string,
+    model: array,
+    onRemove: func,
+    onSearch: func,
+    className: string,
+    children: any
+};
+
+const defaultProps = {
+    onRemove: (item, e) => {},
+    onSearch: (e) => {}
+};
 
 /* eslint-disable max-lines-per-function */
 const RuiSelect = (props) => {
 
-    const {
-        label,
-        disabled,
-        options,
-        width,
-        searchable,
-        value,
-        model,
-        onRemove,
-        onSearch,
-        className,
-        children
-    } = props;
-
     const { cid } = useBase('RuiSelect');
+
     const classList = useMemo(() => {
-        return classMap(['rui', 'rui-select', cid, className]);
-    }, [cid, className]);
+        return classMap(['rui', 'rui-select', cid, props.className]);
+    }, [cid, props]);
+
     const el = useRef(null);
 
     const [state] = useState({
@@ -55,10 +61,10 @@ const RuiSelect = (props) => {
     });
 
     //outside
-    let [modelValue, setModelValue] = useState(value);
-    if (model) {
-        modelValue = model[0];
-        setModelValue = model[1];
+    let [modelValue, setModelValue] = useState(props.value);
+    if (props.model) {
+        modelValue = props.model[0];
+        setModelValue = props.model[1];
     }
 
     //inside
@@ -70,21 +76,21 @@ const RuiSelect = (props) => {
     const [searchValue, setSearchValue] = useState(null);
 
     const viewValue = useMemo(() => {
-        if (searchable && searchValue !== null) {
+        if (props.searchable && searchValue !== null) {
             return searchValue;
         }
         return selectedLabel;
-    }, [searchable, selectedLabel, searchValue]);
+    }, [props, selectedLabel, searchValue]);
 
     const viewClass = useMemo(() => {
         const ls = ['rui-select-view'];
-        if (searchable) {
+        if (props.searchable) {
             ls.push('rui-select-search');
         }
         return classMap(ls);
-    }, [searchable]);
+    }, [props]);
 
-    const [viewWidth, setViewWidth] = useState(width);
+    const [viewWidth, setViewWidth] = useState(props.width);
 
     const viewStyle = useMemo(() => {
         if (viewWidth) {
@@ -185,11 +191,11 @@ const RuiSelect = (props) => {
     };
 
     const list = useMemo(() => {
-        const ls = options ? getListByPropOptions(options) : getListBySlotOptions(children);
+        const ls = props.options ? getListByPropOptions(props.options) : getListBySlotOptions(props.children);
         state.list = ls;
         initSelectedItem(ls, modelValue);
         return ls;
-    }, [options, children, modelValue, state]);
+    }, [props, modelValue, state]);
 
     //=========================================================================================================
 
@@ -216,7 +222,7 @@ const RuiSelect = (props) => {
 
         const cls = e.target.classList;
         if (cls.contains('rui-select-item-remove')) {
-            onRemove(item, e);
+            props.onRemove(item, e);
             return;
         }
 
@@ -309,11 +315,23 @@ const RuiSelect = (props) => {
 
     //=========================================================================================================
 
+    const getRect = (elem) => {
+        const br = elem.getBoundingClientRect();
+        const rect = {
+            left: br.left + window.pageXOffset,
+            top: br.top + window.pageYOffset,
+            width: elem.offsetWidth,
+            height: elem.offsetHeight
+        };
+
+        return rect;
+    };
+
     const layout = () => {
 
-        const viewRect = state.$view.getBoundingClientRect();
-        const listRect = state.$list.getBoundingClientRect();
-        const bodyRect = document.body.getBoundingClientRect();
+        const viewRect = getRect(state.$view);
+        const listRect = getRect(state.$list);
+        const bodyRect = getRect(document.body);
 
         const top = getListTop(viewRect, listRect, bodyRect);
 
@@ -329,14 +347,16 @@ const RuiSelect = (props) => {
         //selected element.scrollIntoView();
         const $selected = state.$list.querySelector('.rui-select-item.selected');
         if ($selected) {
-            $selected.scrollIntoView();
+            //scrollIntoView cased whole page scroll if body scrollable
+            //$selected.scrollIntoView();
+            $selected.parentNode.scrollTop = $selected.offsetTop;
         }
 
     };
 
     const layoutAsync = () => {
 
-        if (disabled) {
+        if (props.disabled) {
             return;
         }
 
@@ -362,7 +382,7 @@ const RuiSelect = (props) => {
     };
 
     const open = () => {
-        if (disabled) {
+        if (props.disabled) {
             return;
         }
 
@@ -454,9 +474,7 @@ const RuiSelect = (props) => {
     const onInput = (e) => {
         //emit('search', e);
         setSearchValue(e.target.value);
-        if (typeof onSearch === 'function') {
-            onSearch(e);
-        }
+        props.onSearch(e);
     };
 
     const onFocus = (e) => {
@@ -529,13 +547,13 @@ const RuiSelect = (props) => {
 
     return (
         <div className={classList} ref={el}>
-            {label && <label>{label}</label>}
+            {props.label && <label>{props.label}</label>}
             <input
                 type="text"
                 className={viewClass}
                 style={viewStyle}
-                disabled={disabled}
-                readOnly={!searchable}
+                disabled={props.disabled}
+                readOnly={!props.searchable}
                 value={viewValue}
                 onClick={onClick}
                 onInput={onInput}
@@ -565,18 +583,7 @@ const RuiSelect = (props) => {
 
 };
 
-RuiSelect.propTypes = {
-    label: string,
-    disabled: bool,
-    options: array,
-    width: string,
-    searchable: bool,
-    value: string,
-    model: array,
-    onRemove: func,
-    onSearch: func,
-    className: string,
-    children: any
-};
+RuiSelect.propTypes = propTypes;
+RuiSelect.defaultProps = defaultProps;
 
 export default RuiSelect;

@@ -9,47 +9,52 @@ import { useBase } from '../../base/base.js';
 import { classMap } from '../../util/util.js';
 import './switch.scss';
 
+const propTypes = {
+    label: string,
+    colors: string,
+    width: string,
+    height: string,
+    disabled: bool,
+    checked: bool,
+    model: any,
+    className: string,
+    children: any
+};
+
+const defaultProps = {
+    width: '35px',
+    height: '20px'
+};
+
 const defaultColors = ['#aaaaaa', '#1890ff'];
 
 const RuiSwitch = (props) => {
 
-    const {
-        label = '',
-        colors,
-        width = '35px',
-        height = '20px',
-        disabled,
-        checked,
-        model,
-        className,
-        children
-    } = props;
-
     const { cid } = useBase('RuiSwitch');
 
     const classList = useMemo(() => {
-        return classMap(['rui', 'rui-switch', cid, className]);
-    }, [cid, className]);
+        return classMap(['rui', 'rui-switch', cid, props.className]);
+    }, [cid, props]);
 
-    let [modelValue, setModelValue] = useState(checked);
-    if (model) {
-        modelValue = model[0];
-        setModelValue = model[1];
+    let [modelValue, setModelValue] = useState(props.checked);
+    if (props.model) {
+        modelValue = props.model[0];
+        setModelValue = props.model[1];
     }
 
     const buttonClassList = useMemo(() => {
         return classMap({
             'rui-switch-button': true,
             'rui-switch-checked': modelValue,
-            'rui-switch-disabled': disabled
+            'rui-switch-disabled': props.disabled
         });
-    }, [modelValue, disabled]);
+    }, [modelValue, props]);
 
     const buttonStyleList = useMemo(() => {
 
         let bgc = modelValue ? defaultColors[1] : defaultColors[0];
-        if (colors) {
-            const ls = `${colors}`.split(',').map((it) => it.trim());
+        if (props.colors) {
+            const ls = `${props.colors}`.split(',').map((it) => it.trim());
             if (modelValue && ls[1]) {
                 bgc = ls[1];
             } else if (ls[0]) {
@@ -60,26 +65,26 @@ const RuiSwitch = (props) => {
         //console.log(bgc);
 
         return {
-            'width': width,
-            'height': height,
-            'borderRadius': height,
+            'width': props.width,
+            'height': props.height,
+            'borderRadius': props.height,
             'backgroundColor': bgc
         };
-    }, [width, height, modelValue, colors]);
+    }, [props, modelValue]);
 
     const iconStyleList = useMemo(() => {
         return {
-            width: `calc(${height} - 4px)`,
-            right: modelValue ? '2px' : `calc(${width} - ${height} + 2px)`
+            width: `calc(${props.height} - 4px)`,
+            right: modelValue ? '2px' : `calc(${props.width} - ${props.height} + 2px)`
         };
-    }, [modelValue, width, height]);
+    }, [modelValue, props]);
 
     const labelContent = useMemo(() => {
-        return label || children;
-    }, [label, children]);
+        return props.label || props.children;
+    }, [props]);
 
     const clickHandler = () => {
-        if (disabled) {
+        if (props.disabled) {
             return;
         }
         setModelValue((v) => {
@@ -107,16 +112,7 @@ const RuiSwitch = (props) => {
 
 };
 
-RuiSwitch.propTypes = {
-    label: string,
-    colors: string,
-    width: string,
-    height: string,
-    disabled: bool,
-    checked: bool,
-    model: any,
-    className: string,
-    children: any
-};
+RuiSwitch.propTypes = propTypes;
+RuiSwitch.defaultProps = defaultProps;
 
 export default RuiSwitch;

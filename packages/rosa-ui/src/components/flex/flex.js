@@ -10,42 +10,7 @@ import { useBase } from '../../base/base.js';
 import { classMap } from '../../util/util.js';
 import './flex.scss';
 
-const RuiFlex = (props) => {
-
-    const {
-        width,
-        height,
-        direction = 'row',
-        center,
-        spacing,
-        className,
-        children
-    } = props;
-
-    const { cid } = useBase('RuiFlex');
-
-    const classList = useMemo(() => {
-        return classMap(['rui', 'rui-flex', cid, `rui-flex-${direction}`, {
-            'rui-flex-center': center,
-            'rui-flex-spacing': spacing
-        }, className]);
-    }, [cid, direction, center, spacing, className]);
-
-    const styleList = useMemo(() => {
-        return {
-            width,
-            height,
-            '--rui-flex-spacing': spacing
-        };
-    }, [width, height, spacing]);
-
-    return (
-        <div className={classList} style={styleList}>{children}</div>
-    );
-
-};
-
-RuiFlex.propTypes = {
+const propTypes = {
     width: string,
     height: string,
     direction: oneOf(['row', 'column']),
@@ -54,5 +19,37 @@ RuiFlex.propTypes = {
     className: string,
     children: any
 };
+
+const defaultProps = {
+    direction: 'row'
+};
+
+const RuiFlex = (props) => {
+
+    const { cid } = useBase('RuiFlex');
+
+    const classList = useMemo(() => {
+        return classMap(['rui', 'rui-flex', cid, `rui-flex-${props.direction}`, {
+            'rui-flex-center': props.center,
+            'rui-flex-spacing': props.spacing
+        }, props.className]);
+    }, [cid, props]);
+
+    const styleList = useMemo(() => {
+        return {
+            width: props.width,
+            height: props.height,
+            '--rui-flex-spacing': props.spacing
+        };
+    }, [props]);
+
+    return (
+        <div className={classList} style={styleList}>{props.children}</div>
+    );
+
+};
+
+RuiFlex.propTypes = propTypes;
+RuiFlex.defaultProps = defaultProps;
 
 export default RuiFlex;
