@@ -17,8 +17,8 @@ npm i rosa-ui
 
 ## Usage
 ```
-import { components } from "rosa-ui";
-const { RuiButton } = components;
+import RosaUI from "rosa-ui";
+const { RuiButton } = RosaUI;
 root.render(
     <RuiButton>Button Name</RuiButton>
     <RuiButton disabled>Button Disabled</RuiButton>
