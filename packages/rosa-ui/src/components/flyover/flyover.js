@@ -10,36 +10,44 @@ import {
 import React, {
     useMemo, useState, useRef, useEffect
 } from 'react';
-import { createPortal } from 'react-dom';
+
 import { useBase } from '../../base/base.js';
 import { classMap } from '../../util/util.js';
 import './flyover.scss';
 
+const propTypes = {
+    width: string,
+    position: oneOf(['right', 'left']),
+    visible: bool,
+    className: string,
+    children: any
+};
+
+const defaultProps = {
+    width: '50%',
+    position: 'right'
+};
+
 const RuiFlyover = (props) => {
 
-    const {
-        width = '50%',
-        position = 'right',
-        visible = false,
-        className,
-        children
-    } = props;
-
     const { cid } = useBase('RuiFlyover');
+
+    //console.log(cid, props);
+
     const classList = useMemo(() => {
-        return classMap(['rui', 'rui-flyover', cid, `rui-flyover-${position}`, className]);
-    }, [cid, position, className]);
+        return classMap(['rui', 'rui-flyover', cid, `rui-flyover-${props.position}`, props.className]);
+    }, [cid, props]);
 
     const el = useRef(null);
 
     const [state] = useState({
-        firstUpdated: false,
-        hasStarted: false,
-        visible: visible,
-        $el: null
+        mounted: false,
+        visible: false,
+        $el: null,
+        hasStarted: false
     });
 
-    const [dataWidth, setDataWidth] = useState(width);
+    const [dataWidth, setDataWidth] = useState(props.width);
 
     const styleList = useMemo(() => {
         return {
@@ -47,33 +55,8 @@ const RuiFlyover = (props) => {
         };
     }, [dataWidth]);
 
-    const getBodyClass = () => {
-        if (position === 'left') {
-            return '';
-        }
-        if (state.$el.parentNode) {
-            return 'rui-flyover-overflow-hidden';
-        }
-        return '';
-    };
-
-    const lockBody = (lock) => {
-        const bc = getBodyClass();
-        if (!bc) {
-            return;
-        }
-        //for body hide scrollbar when animation
-        const cl = document.body.classList;
-        if (lock) {
-            cl.add(bc);
-        } else {
-            cl.remove(bc);
-        }
-    };
-
-
     const animationHandler = () => {
-        console.log('animationHandler', state.visible);
+        // console.log('animationHandler', state.visible);
         onEnd(state.visible);
     };
 
@@ -92,10 +75,10 @@ const RuiFlyover = (props) => {
     const onStart = () => {
 
 
-        const nv = visible;
+        const nv = props.visible;
         const ov = state.visible;
 
-        console.log('onStart', nv, ov);
+        //console.log('onStart', nv, ov);
 
         if (nv === ov) {
             return;
@@ -104,72 +87,59 @@ const RuiFlyover = (props) => {
         if (state.hasStarted) {
             onEnd(ov);
         }
-        lockBody(true);
         unbindEvents();
         const cl = state.$el.classList;
         if (nv) {
-            cl.add(`rui-slide-in-${position}`, 'rui-flyover-show');
-            setDataWidth(width);
+            cl.add(`rui-slide-in-${props.position}`, 'rui-flyover-show');
+            setDataWidth(props.width);
         } else {
-            cl.add(`rui-slide-out-${position}`);
+            cl.add(`rui-slide-out-${props.position}`);
         }
         state.hasStarted = true;
         bindEvents();
     };
 
     const onEnd = (v) => {
-        console.log('onEnd', v);
+        //console.log('onEnd', v);
         state.hasStarted = false;
-        lockBody(false);
         unbindEvents();
         const cl = state.$el.classList;
         if (v) {
-            cl.remove(`rui-slide-in-${position}`);
+            cl.remove(`rui-slide-in-${props.position}`);
         } else {
-            cl.remove(`rui-slide-out-${position}`, 'rui-flyover-show');
+            cl.remove(`rui-slide-out-${props.position}`, 'rui-flyover-show');
             setDataWidth('0px');
         }
     };
 
-
     useEffect(() => {
 
-        setDataWidth(width);
+        //console.log(cid, 'useEffect');
 
-        if (state.firstUpdated) {
-
-            onStart();
-            state.visible = visible;
-
-        } else {
-
-            state.firstUpdated = true;
+        if (!state.mounted) {
+            state.mounted = true;
             state.$el = el.current;
-            onStart();
-
         }
 
+        setDataWidth(props.width);
+        onStart();
+        state.visible = props.visible;
+
         return () => {
+            //console.log('flyover unmount');
             unbindEvents();
-            lockBody(false);
         };
 
-    }, [width, visible]);
+    }, [props]);
 
-    return createPortal(
-        <div ref={el} className={classList} style={styleList}>{children}</div>,
-        document.body
+    return (
+        <div ref={el} className={classList} style={styleList}>{props.children}</div>
     );
 
 };
 
 
-RuiFlyover.propTypes = {
-    width: string,
-    position: oneOf(['right', 'left']),
-    visible: bool,
-    className: string,
-    children: any
-};
+RuiFlyover.propTypes = propTypes;
+RuiFlyover.defaultProps = defaultProps;
 
 export default RuiFlyover;

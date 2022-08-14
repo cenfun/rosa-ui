@@ -1,50 +1,90 @@
-import React, { useState } from 'react';
-import { components } from 'rosa-ui';
+import React, { useEffect, useState } from 'react';
+import RosaUI from 'rosa-ui';
+
+const {
+    RuiButton, RuiFlex, RuiSelect, RuiFlyover, RuiPortal
+} = RosaUI;
 
 const DemeFlyover = () => {
-    const {
-        RuiButton, RuiFlex, RuiSelect, RuiFlyover
-    } = components;
+
+    const widthModel = useState('30%');
+    const width = widthModel[0];
+
+    const positionModel = useState('right');
+    const position = positionModel[0];
 
     const [visible, setVisible] = useState(false);
 
-    const flyoverWidth = useState('30%');
-    const flyoverPosition = useState('right');
+    const [closed, setClosed] = useState(true);
 
-    const onClick = (v) => {
-        return (e) => {
-            setVisible(v);
-        };
+    const showFlyover = (e) => {
+        //console.log('showFlyover');
+        if (closed) {
+            setClosed(false);
+        }
+        setVisible(true);
     };
+
+    const hideFlyover = (e) => {
+        //console.log('hideFlyover');
+        setVisible(false);
+    };
+
+    const toggleFlyover = (e) => {
+        if (visible) {
+            hideFlyover(e);
+        } else {
+            showFlyover(e);
+        }
+    };
+
+    const destroyFlyover = (e) => {
+        hideFlyover();
+        setClosed(true);
+    };
+
+    useEffect(() => {
+        return () => {
+            destroyFlyover();
+        };
+    }, []);
 
     return (
         <RuiFlex spacing="10px">
 
-            {flyoverPosition[0] === 'left' && <div className="rui-flex-empty"/> }
+            {position === 'left' && <div className="rui-flex-empty"/> }
 
-            <RuiSelect model={flyoverWidth}>
+            <RuiSelect model={widthModel}>
                 <option>30%</option>
                 <option>50%</option>
                 <option>60%</option>
                 <option>100px</option>
             </RuiSelect>
 
-            <RuiSelect model={flyoverPosition}>
+            <RuiSelect model={positionModel}>
                 <option>right</option>
                 <option>left</option>
             </RuiSelect>
 
-            <RuiButton onClick={onClick(!visible)}>Toggle</RuiButton>
+            <RuiButton onClick={toggleFlyover}>Toggle</RuiButton>
 
-            <RuiButton onClick={onClick(true)}>Show</RuiButton>
+            <RuiButton onClick={showFlyover}>Show</RuiButton>
 
-            <RuiButton onClick={onClick(false)}>Hide</RuiButton>
+            <RuiButton onClick={hideFlyover}>Hide</RuiButton>
 
-            {flyoverPosition[0] === 'right' && <div className="rui-flex-empty"/> }
+            <RuiButton onClick={destroyFlyover}>Destroy</RuiButton>
 
-            <RuiFlyover width={flyoverWidth[0]} position={flyoverPosition[0]} visible={visible}>
-                <RuiButton onClick={onClick(false)}>Close</RuiButton>
-            </RuiFlyover>
+            {position === 'right' && <div className="rui-flex-empty"/> }
+
+            <RuiPortal closed={closed}>
+                <RuiFlyover width={width} position={position} visible={visible}>
+                    <div style={{
+                        padding: '10px'
+                    }}>
+                        <RuiButton onClick={hideFlyover}>Close</RuiButton>
+                    </div>
+                </RuiFlyover>
+            </RuiPortal>
 
         </RuiFlex>
     );

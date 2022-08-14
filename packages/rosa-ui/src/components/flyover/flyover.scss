@@ -1,5 +1,5 @@
 .rui-flyover {
-    position: absolute;
+    position: fixed;
     top: 0;
     z-index: 1000;
     height: 100%;
@@ -41,10 +41,6 @@
 .rui-flyover-left.rui-flyover-show::before {
     left: 100%;
     background-image: linear-gradient(to right, rgb(0 0 0 / 20%), rgb(0 0 0 / 0%));
-}
-
-.rui-flyover-overflow-hidden {
-    overflow: hidden;
 }
 
 @keyframes rui-slide-in-right {

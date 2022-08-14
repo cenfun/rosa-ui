@@ -10,41 +10,39 @@ import { useBase } from '../../base/base.js';
 import { classMap } from '../../util/util.js';
 import './button.scss';
 
-const RuiButton = (props) => {
+const propTypes = {
+    label: any,
+    primary: bool,
+    type: string,
+    disabled: bool,
+    onClick: func,
+    className: string,
+    children: any
+};
 
-    const {
-        type,
-        primary,
-        disabled,
-        onClick,
-        label,
-        className,
-        children
-    } = props;
+const defaultProps = {
+    type: 'button'
+};
+
+const RuiButton = (props) => {
 
     const { cid } = useBase('RuiButton');
 
     const classList = useMemo(() => {
         return classMap(['rui', 'rui-button', cid, {
-            'rui-button-primary': primary
-        }, className]);
-    }, [cid, primary, className]);
+            'rui-button-primary': props.primary
+        }, props.className]);
+    }, [cid, props]);
 
     return (
-        <button type={type} disabled={disabled} className={classList} onClick={onClick}>{label || children}</button>
+        <button type={props.type} disabled={props.disabled} className={classList} onClick={props.onClick}>
+            {props.label || props.children}
+        </button>
     );
 
 };
 
-RuiButton.propTypes = {
-    type: string,
-    primary: bool,
-    disabled: bool,
-    onClick: func,
-    label: any,
-    className: string,
-    children: any
-};
-
+RuiButton.propTypes = propTypes;
+RuiButton.defaultProps = defaultProps;
 
 export default RuiButton;

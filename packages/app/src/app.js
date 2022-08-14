@@ -1,5 +1,7 @@
 import RosaUI from 'rosa-ui';
-import React, { StrictMode } from 'react';
+import React, {
+    StrictMode, useEffect, useState
+} from 'react';
 import ReactDOM from 'react-dom';
 import './app.scss';
 
@@ -13,7 +15,7 @@ document.body.appendChild(rootElement);
 
 const root = ReactDOM.createRoot(rootElement);
 
-const { RuiFlex } = RosaUI;
+const { RuiFlex, RuiSwitch } = RosaUI;
 
 
 const kebabToPascalCase = function(text) {
@@ -40,34 +42,51 @@ paths.forEach((path) => {
 
 console.log('demos', demos);
 
+const App = () => {
 
-root.render(
-    <StrictMode>
-        <RuiFlex direction="column">
-            <div className="rui-header rui-flex-row">
-                <div className="rui-title">Rosa UI</div>
-                <div className="rui-sub">
+    const strict = localStorage.getItem('rui-strict-mode') === 'true';
+    const strictModel = useState(strict);
+    useEffect(() => {
+        localStorage.setItem('rui-strict-mode', strictModel[0]);
+    });
+
+    const Children = () => {
+        return (
+            <RuiFlex direction="column">
+                <RuiFlex spacing="10px" className="rui-header">
+                    <div className="rui-title">Rosa UI</div>
+                    <div className="rui-sub">
                     Based on <a href="https://github.com/facebook/react/" target="_blank" rel="noreferrer" >React</a>
-                </div>
-                <div>
-                    <a href="https://github.com/cenfun/rosa-ui" target="_blank" className="icon-github" rel="noreferrer"/>
-                </div>
-            </div>
-            <div className="rui-body rui-flex-auto">
-                {demos.map((item, i) => {
-                    const Demo = item.Demo;
-                    return (
-                        <div key={i} className="rui-item rui-flex-row">
-                            <div className="rui-item-name">
-                                { item.name }
+                    </div>
+                    <div>
+                        <RuiSwitch model={strictModel}>StrictMode</RuiSwitch>
+                    </div>
+                    <div>
+                        <a href="https://github.com/cenfun/rosa-ui" target="_blank" className="icon-github" rel="noreferrer"/>
+                    </div>
+                </RuiFlex>
+                <div className="rui-body rui-flex-auto">
+                    {demos.map((item, i) => {
+                        const Demo = item.Demo;
+                        return (
+                            <div key={i} className="rui-item rui-flex-row">
+                                <div className="rui-item-name">
+                                    { item.name }
+                                </div>
+                                <div className="rui-item-example rui-flex-auto">
+                                    <Demo />
+                                </div>
                             </div>
-                            <div className="rui-item-example rui-flex-auto">
-                                <Demo />
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
-        </RuiFlex>
-    </StrictMode>
-);
+                        );
+                    })}
+                </div>
+            </RuiFlex>
+        );
+    };
+
+    return (
+        strictModel[0] ? <StrictMode><Children /></StrictMode> : <Children />
+    );
+};
+
+root.render(<App />);
