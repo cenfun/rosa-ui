@@ -2,13 +2,13 @@
 
 # Rosa UI
 - Lightweight UI components based on [React](https://github.com/facebook/react/)
-- Dist size (js minified: true): 25.2KB / gzip: 7.9KB
+- Dist size (js minified: true): 26.6KB / gzip: 8.1KB
 
 ## Preview Online
 [https://cenfun.github.io/rosa-ui/](https://cenfun.github.io/rosa-ui/)
 
 ## Components
-* RuiButton  * RuiCheckbox  * RuiFlex  * RuiFlyover  * RuiSelect  * RuiSwitch  
+* RuiButton  * RuiCheckbox  * RuiFlex  * RuiFlyover  * RuiPortal  * RuiSelect  * RuiSwitch  
 
 ## Install
 ```sh
