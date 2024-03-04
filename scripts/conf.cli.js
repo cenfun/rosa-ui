@@ -8,12 +8,9 @@ module.exports = {
     test: {
         coverageProvider: 'v8',
         coverageOptions: {
-            // logging: 'debug'
-            // reports: ['v8', ['html', {
-            //     subdir: 'html'
-            // }]]
+            // logging: 'debug',
 
-            all: 'packages/rosa-ui/src',
+            // all: 'packages/rosa-ui/src',
 
             sourceFilter: {
                 '**/webpack/**': false,
