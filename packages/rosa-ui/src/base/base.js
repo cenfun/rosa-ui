@@ -6,12 +6,12 @@ let _uid = 1;
 
 export const useBase = function(name) {
 
-    //unique id
+    // unique id
     const [uid] = useState(`${_uid++}`);
-    //component id, instance id, rui-name-uid
+    // component id, instance id, rui-name-uid
     const [cid] = useState(`${pascalToKebabCase(name)}-${uid}`);
 
-    //console.log(cid, name);
+    // console.log(cid, name);
 
     return {
         uid,

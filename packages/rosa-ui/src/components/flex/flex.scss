@@ -9,8 +9,8 @@
 
 .rui-flex-empty {
     flex: 1 1 0%;
-    overflow: hidden;
     margin: 0;
+    overflow: hidden;
 }
 
 .rui-flex-center {
@@ -18,22 +18,22 @@
 }
 
 .rui-flex-row {
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
-    position: relative;
 }
 
 .rui-flex-column {
+    position: relative;
     display: flex;
     flex-direction: column;
-    position: relative;
 }
 
 .rui-flex-spacing > .rui-flex-empty,
 .rui-flex-spacing > .rui-flex-empty + * {
-    margin-left: 0;
     margin-top: 0;
+    margin-left: 0;
 }
 
 .rui-flex-spacing {

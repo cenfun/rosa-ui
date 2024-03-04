@@ -6,8 +6,9 @@
     "files": [
         "dist"
     ],
+    "license": "MIT",
     "dependencies": {
-        "rosa-ui": ""
+        "rosa-ui": "~1.0.0"
     },
     "devDependencies": {}
 }

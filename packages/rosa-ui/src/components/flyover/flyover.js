@@ -32,7 +32,7 @@ const RuiFlyover = (props) => {
 
     const { cid } = useBase('RuiFlyover');
 
-    //console.log(cid, props);
+    // console.log(cid, props);
 
     const classList = useMemo(() => {
         return classMap(['rui', 'rui-flyover', cid, `rui-flyover-${props.position}`, props.className]);
@@ -78,7 +78,7 @@ const RuiFlyover = (props) => {
         const nv = props.visible;
         const ov = state.visible;
 
-        //console.log('onStart', nv, ov);
+        // console.log('onStart', nv, ov);
 
         if (nv === ov) {
             return;
@@ -100,7 +100,7 @@ const RuiFlyover = (props) => {
     };
 
     const onEnd = (v) => {
-        //console.log('onEnd', v);
+        // console.log('onEnd', v);
         state.hasStarted = false;
         unbindEvents();
         const cl = state.$el.classList;
@@ -114,7 +114,7 @@ const RuiFlyover = (props) => {
 
     useEffect(() => {
 
-        //console.log(cid, 'useEffect');
+        // console.log(cid, 'useEffect');
 
         if (!state.mounted) {
             state.mounted = true;
@@ -126,7 +126,7 @@ const RuiFlyover = (props) => {
         state.visible = props.visible;
 
         return () => {
-            //console.log('flyover unmount');
+            // console.log('flyover unmount');
             unbindEvents();
         };
 

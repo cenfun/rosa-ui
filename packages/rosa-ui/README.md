@@ -2,7 +2,7 @@
 
 # Rosa UI
 - Lightweight UI components based on [React](https://github.com/facebook/react/)
-- Dist size (js minified: true): 26.6KB / gzip: 8.1KB
+- Dist size (js minified: true): 26.5KB / gzip: 8.1KB
 
 ## Preview Online
 [https://cenfun.github.io/rosa-ui/](https://cenfun.github.io/rosa-ui/)

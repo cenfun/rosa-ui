@@ -34,7 +34,7 @@ const DemoSelect = () => {
 
     const onSelectSearch = (e) => {
 
-        //console.log(e);
+        // console.log(e);
         const value = e.target.value;
         if (!value) {
             return;
@@ -48,7 +48,7 @@ const DemoSelect = () => {
             ls.length = Math.ceil(12 * Math.random());
             const str = ls.join(' Text');
             results.push({
-                //only label
+                // only label
                 label: `${i + 1}, ${str}`,
                 removable: true
             });
@@ -56,7 +56,7 @@ const DemoSelect = () => {
         }
         setSelectResults(results);
 
-        //console.log(v);
+        // console.log(v);
     };
 
     const onSelectRemove = (item) => {
@@ -64,7 +64,7 @@ const DemoSelect = () => {
         const v = item.value;
         setSelectResults((results) => {
             return results.filter((it) => {
-                //no value here
+                // no value here
                 if (it.label === v) {
                     return false;
                 }
@@ -94,7 +94,6 @@ const DemoSelect = () => {
                     <option
                         label="attr removable"
                         value="attr"
-                        removable
                     />
                     <option>text</option>
                     <option>One</option>

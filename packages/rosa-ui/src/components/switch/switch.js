@@ -62,7 +62,7 @@ const RuiSwitch = (props) => {
             }
         }
 
-        //console.log(bgc);
+        // console.log(bgc);
 
         return {
             'width': props.width,

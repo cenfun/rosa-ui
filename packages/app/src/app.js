@@ -5,7 +5,7 @@ import React, {
 import ReactDOM from 'react-dom';
 import './app.scss';
 
-//console.log(React, ReactDOM);
+// console.log(React, ReactDOM);
 
 console.log('components', RosaUI);
 
@@ -29,7 +29,7 @@ const context = require.context('./demo', true, /\.js$/);
 const demos = [];
 const paths = context.keys();
 paths.forEach((path) => {
-    //console.log(path);
+    // console.log(path);
     const fileName = path.split('/').pop();
     const demoName = fileName.split('.').shift();
     const N = kebabToPascalCase(demoName);

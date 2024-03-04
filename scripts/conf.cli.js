@@ -5,6 +5,32 @@ module.exports = {
         enable: false
     },
 
+    test: {
+        coverageProvider: 'v8',
+        coverageOptions: {
+            // logging: 'debug'
+            // reports: ['v8', ['html', {
+            //     subdir: 'html'
+            // }]]
+
+            all: 'packages/rosa-ui/src',
+
+            sourceFilter: {
+                '**/webpack/**': false,
+                '**/starfall-cli/**': false,
+                '**/node_modules/**': false,
+                '**/*.scss': false,
+                '**/*.scss/**': false,
+                '**/src/**': true
+            },
+
+            sourcePath: {
+                'rosa-ui-app-bundle/': '',
+                'rosa-ui/packages/rosa-ui/': ''
+            }
+        }
+    },
+
     build: {
         define: {
 

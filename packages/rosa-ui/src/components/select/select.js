@@ -13,7 +13,7 @@ import { useBase } from '../../base/base.js';
 import {
     classMap, clamp, isList, hasOwn, nextTick, bindEvents, unbindEvents
 } from '../../util/util.js';
-//import { useHelper } from './select-helper.js';
+// import { useHelper } from './select-helper.js';
 
 import IconX from '../../base/images/icon-x.js';
 import './select.scss';
@@ -60,19 +60,19 @@ const RuiSelect = (props) => {
         $view: null
     });
 
-    //outside
+    // outside
     let [modelValue, setModelValue] = useState(props.value);
     if (props.model) {
         modelValue = props.model[0];
         setModelValue = props.model[1];
     }
 
-    //inside
-    //label for view display
+    // inside
+    // label for view display
     const [selectedLabel, setSelectedLabel] = useState('');
-    //value for selected item class
+    // value for selected item class
     const [selectedValue, setSelectedValue] = useState(null);
-    //for search input
+    // for search input
     const [searchValue, setSearchValue] = useState(null);
 
     const viewValue = useMemo(() => {
@@ -110,7 +110,7 @@ const RuiSelect = (props) => {
         return {};
     }, [viewWidth]);
 
-    //=========================================================================================================
+    // =========================================================================================================
 
     const getListByPropOptions = (ls) => {
         ls = ls.map((item) => {
@@ -152,7 +152,7 @@ const RuiSelect = (props) => {
         };
 
         ls = ls.map((vn) => {
-            //console.log(vn);
+            // console.log(vn);
             const item = {
                 ... vn.props
             };
@@ -173,7 +173,7 @@ const RuiSelect = (props) => {
             return item;
         });
 
-        //console.log(ls);
+        // console.log(ls);
 
         return ls;
 
@@ -197,7 +197,7 @@ const RuiSelect = (props) => {
         return ls;
     }, [props, modelValue, state]);
 
-    //=========================================================================================================
+    // =========================================================================================================
 
     const getEventClosestNode = function(target, cln) {
         if (!target) {
@@ -218,7 +218,7 @@ const RuiSelect = (props) => {
 
         const item = state.list[index];
 
-        //console.log(state.list, item);
+        // console.log(state.list, item);
 
         const cls = e.target.classList;
         if (cls.contains('rui-select-item-remove')) {
@@ -226,7 +226,7 @@ const RuiSelect = (props) => {
             return;
         }
 
-        //console.log('onItemClick', item);
+        // console.log('onItemClick', item);
         setSearchValue(null);
         setSelectedLabel(item.label);
         setSelectedValue(item.value);
@@ -240,13 +240,13 @@ const RuiSelect = (props) => {
     const [windowEvents] = useState({
         resize: {
             handler: (e) => {
-                //console.log('resizeHandler');
+                // console.log('resizeHandler');
                 close();
             }
         },
         scroll: {
             handler: (e) => {
-                //console.log('scrollHandler');
+                // console.log('scrollHandler');
                 if (isSelectInner(e.target)) {
                     return;
                 }
@@ -279,7 +279,7 @@ const RuiSelect = (props) => {
         bindEvents(listEvents, state.$list);
     };
 
-    //=========================================================================================================
+    // =========================================================================================================
 
     const showList = () => {
         document.body.appendChild(state.$list);
@@ -291,11 +291,11 @@ const RuiSelect = (props) => {
         state.$list.remove();
     };
 
-    //=========================================================================================================
+    // =========================================================================================================
 
     const close = () => {
 
-        //align with open
+        // align with open
         state.shouldOpen = false;
 
         if (!state.isOpen) {
@@ -313,7 +313,7 @@ const RuiSelect = (props) => {
         }, 100);
     };
 
-    //=========================================================================================================
+    // =========================================================================================================
 
     const getRect = (elem) => {
         const br = elem.getBoundingClientRect();
@@ -344,11 +344,11 @@ const RuiSelect = (props) => {
         st.left = `${left}px`;
         st.top = `${top}px`;
 
-        //selected element.scrollIntoView();
+        // selected element.scrollIntoView();
         const $selected = state.$list.querySelector('.rui-select-item.selected');
         if ($selected) {
-            //scrollIntoView cased whole page scroll if body scrollable
-            //$selected.scrollIntoView();
+            // scrollIntoView cased whole page scroll if body scrollable
+            // $selected.scrollIntoView();
             $selected.parentNode.scrollTop = $selected.offsetTop;
         }
 
@@ -401,8 +401,8 @@ const RuiSelect = (props) => {
         bindComponentEvents();
     };
 
-    //when opened list and click out side browser will blur
-    //then click body will trigger focus and blur, that not make sense
+    // when opened list and click out side browser will blur
+    // then click body will trigger focus and blur, that not make sense
     const openAsync = () => {
         clearTimeout(state.timeout_display);
         state.timeout_display = setTimeout(() => {
@@ -410,7 +410,7 @@ const RuiSelect = (props) => {
         }, 100);
     };
 
-    //=========================================================================================================
+    // =========================================================================================================
 
     const isSelectInner = (elem) => {
         if (state.$list === elem) {
@@ -420,7 +420,7 @@ const RuiSelect = (props) => {
         try {
             inner = state.$list.contains(elem);
         } catch (e) {
-            //empty
+            // empty
         }
         return inner;
     };
@@ -450,7 +450,7 @@ const RuiSelect = (props) => {
             up: top.up > 0
         };
 
-        //console.log(top, ok);
+        // console.log(top, ok);
 
         if (ok[state.lastDirection]) {
             return top[state.lastDirection];
@@ -465,31 +465,31 @@ const RuiSelect = (props) => {
         return top.up;
     };
 
-    //=========================================================================================================
+    // =========================================================================================================
 
     const onClick = (e) => {
         open();
     };
 
     const onInput = (e) => {
-        //emit('search', e);
+        // emit('search', e);
         setSearchValue(e.target.value);
         props.onSearch(e);
     };
 
     const onFocus = (e) => {
-        //console.log('onFocus', cid);
+        // console.log('onFocus', cid);
         e.target.select();
         openAsync();
     };
 
     const onBlur = (e) => {
-        //console.log('onBlur', cid);
+        // console.log('onBlur', cid);
         setSearchValue(null);
         closeAsync();
     };
 
-    //=========================================================================================================
+    // =========================================================================================================
     const getItemClass = (item) => {
         const ls = ['rui-select-item'];
         if (item.value === selectedValue) {
@@ -498,12 +498,12 @@ const RuiSelect = (props) => {
         return classMap(ls);
     };
 
-    //=========================================================================================================
+    // =========================================================================================================
 
 
     const initWidth = () => {
 
-        //console.log(cid, 'onListLayout');
+        // console.log(cid, 'onListLayout');
 
         if (viewWidth) {
             return;
@@ -515,8 +515,8 @@ const RuiSelect = (props) => {
 
         const listRect = state.$list.getBoundingClientRect();
 
-        //console.log(cid, 'listRect', listRect);
-        //border is 2 if empty
+        // console.log(cid, 'listRect', listRect);
+        // border is 2 if empty
         if (listRect.width <= 2) {
             return;
         }
@@ -524,7 +524,7 @@ const RuiSelect = (props) => {
         const iconWidth = 15;
         const viewMinWidth = 50;
         const viewMaxWidth = 350;
-        //no padding because list have same padding
+        // no padding because list have same padding
         const w = clamp(Math.ceil(listRect.width) + iconWidth, viewMinWidth, viewMaxWidth);
         setViewWidth(`${w}px`);
 
@@ -566,7 +566,7 @@ const RuiSelect = (props) => {
                     {
                         list.map((item, i) => {
                             return (
-                                <div key={i} index={i} className={getItemClass(item)} >
+                                <div key={i} className={getItemClass(item)} >
                                     <div className="rui-select-item-label">
                                         { item.label }
                                     </div>

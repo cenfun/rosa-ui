@@ -18,7 +18,7 @@ const DemeFlyover = () => {
     const [closed, setClosed] = useState(true);
 
     const showFlyover = (e) => {
-        //console.log('showFlyover');
+        // console.log('showFlyover');
         if (closed) {
             setClosed(false);
         }
@@ -26,7 +26,7 @@ const DemeFlyover = () => {
     };
 
     const hideFlyover = (e) => {
-        //console.log('hideFlyover');
+        // console.log('hideFlyover');
         setVisible(false);
     };
 
